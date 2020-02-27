@@ -22,13 +22,38 @@ func main() {
 
 	r := csv.NewReader(file)
 
-	lines, err := r.ReadAll()
+	records, err := r.ReadAll()
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(lines)
+	problems := make([]question, len(records))
+
+	for i, record := range records {
+		problems[i].q = record[0]
+		problems[i].a = record[1]
+	}
+
+	var correctAnswers int
+	for _, problem := range problems {
+
+		fmt.Printf("What is %s?\n", problem.q)
+
+		var input string
+		_, err := fmt.Scanf("%s\n", &input)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		if input == problem.a {
+			correctAnswers++
+		}
+
+	}
+
+	fmt.Printf("Score: %d/%d\n", correctAnswers, len(problems))
 
 }
 
